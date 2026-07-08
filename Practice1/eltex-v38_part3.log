@@ -1,0 +1,54 @@
+mkdir -p D1/D2/D3
+touch D1/D2/file.txt
+echo "Произвольный текст" > D1/D2/file.txt
+cd D1/D2/D3
+ln -s ../file.txt symbolic_link.txt
+ln ../file.txt hard_link1.txt
+ln ../file.txt hard_link2.txt
+cd ~
+total 8
+262314 -rw-r--r-- 3 eltex-v38 eltex-v38 36 июл  8 01:03 hard_link1.txt
+262314 -rw-r--r-- 3 eltex-v38 eltex-v38 36 июл  8 01:03 hard_link2.txt
+262315 lrwxrwxrwx 1 eltex-v38 eltex-v38 11 июл  8 01:09 symbolic_link.txt -> ../file.txt
+ls -li D1/D2/D3/
+mv D1/D2/file.txt D1/
+ls -li D1/D2/D3/
+rm -rf D1/D2
+find / -type f -size +20M 2>/dev/null > eltex-v38_part3_gt20M.log
+head -5 -v38_part3_gt20M.log | xargs du -h 2>/dev/null | tee -a eltex-v38_part3.log
+4,0K	./2026-08
+4,0K	./2026-05
+4,0K	./.config/procps
+8,0K	./.config
+4,0K	./2026-03
+4,0K	./2026-11
+4,0K	./2026-10
+4,0K	./2026-06
+8,0K	./D1
+4,0K	./2026-02
+4,0K	./2026-09
+4,0K	./2026-01
+4,0K	./2026-07
+4,0K	./2026-12
+4,0K	./2026-04
+108K	.
+cat eltex-v38_part3_gt20M.log | xargs du -h 2>/dev/null
+cat eltex-v38_part3_gt20M.log | xargs du -h 2>/dev/null
+find ~ -type f -mtime -1 2>/dev/null
+/home/eltex-v38/eltex-v38_part3_gt20M.log
+/home/eltex-v38/-v38_part3_gt20M.log
+/home/eltex-v38/eltex-v38_part.log
+/home/eltex-v38/D1/file.txt
+/home/eltex-v38/eltex-v38_part3.log
+/home/eltex-v38/.bash_history
+which find
+/usr/bin/find
+file `which find`
+file `which find`
+file /boot/initrd.img* 2>/dev/null
+file /boot/initrd.img* 2>/dev/null
+/boot/initrd.img-6.1.0-44-amd64: ASCII cpio archive (SVR4 with no CRC)
+/boot/initrd.img-6.1.0-50-amd64: ASCII cpio archive (SVR4 with no CRC)
+/boot/initrd.img-6.1.0-44-amd64: ASCII cpio archive (SVR4 with no CRC)
+/boot/initrd.img-6.1.0-50-amd64: ASCII cpio archive (SVR4 with no CRC)
+/usr/bin/find: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5545a6c7162d325fbe5ffabcbfe4e5521b66ce70, for GNU/Linux 3.2.0, stripped
