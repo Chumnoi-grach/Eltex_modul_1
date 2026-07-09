@@ -1,0 +1,417 @@
+root@eltex-practice2-v38:~# export MYUSER=eltex-v38
+root@eltex-practice2-v38:~# echo $MYUSER
+eltex-v38
+root@eltex-practice2-v38:~# export LOGFILE="practice2_${MYUSER}_part1.log"
+root@eltex-practice2-v38:~# echo $LOGFILE
+
+1 Задание:
+
+eltex-v38@eltex-2026-summer:~$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
+Generating public/private rsa key pair.
+Your identification has been saved in /home/eltex-v38/.ssh/id_rsa
+Your public key has been saved in /home/eltex-v38/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:+USeSa8+fp+41qXO0gBZQdLrlzmNbT2W14imO6vSsRA eltex-v38@eltex-2026-summer
+The key's randomart image is:
++---[RSA 4096]----+
+|          .oo.   |
+|           .o    |
+|          oo .   |
+|      E  =o+.    |
+|       .S =o.. B+|
+|      . .o .= B+O|
+|       o ooo =.=o|
+|      . o.+ +o+. |
+|       ..o=Bo==  |
++----[SHA256]-----+
+eltex-v38@eltex-2026-summer:~$ cat ~/.ssh/id_rsa.pub >> $LOGFILE
+eltex-v38@eltex-2026-summer:~$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrSlHRjQOE81/4Rwsgr057c6mdOzLtzLrOU5XQERsZYYQ3+AKDbhh0ObbgaMjJMFh6sWsrWwB5PDYOrSVvKHOz3GSPoB9lDL4PIox3HohQlsMPMteT5EmoaPqF3y/GldK9y5WPDNFIB9SGFAUdmFZzmuqhsodGjFdTqc3/ZC9m6s2sXi5UOsyjcqxezfewcfSM15SChk6CXG0Zia5ZmRmxdDXI7JmB8vEHiMueLRDkSrM8l8Ye/r6SF0GV0rwx5lfLKfrNO+eI8TO7FRKZACJeXvu034gNzzMQeDPuW2co7mcc9d/S1KrUfYqhVcXWXHhPMAUMeT+DtjJeSrMmuQML11B95Qjjl0Ju1JzTPmJiwTvuTdUNRCu2CTvVKlj4ZuVCpZN6sQUM9NQnGtjp/+I7QOq+7pxdIfCsLhzbXJUeGIhSf9kEfWduP7ParK34st/RVC2YakivgbRJsy4g3nnhMXGvRSw/mpSB6FSirx+zFxrRXPMrbzozqiIdm35vF9wwXwZYODEmHjY8wkGlfcdZp+QhQy2EanyYqZL4VQTlEJhLb0jnlF6Nf4/wcyknYzXR+J+AcwDshfz/DlKNthcBM4/S14m4a9WLvyhZ+CI86bCJcfztw9MFibikVyt+3IIqFjNFd4VBtSNHchkFlnVLowrkoV6KU1OoVt9Ay/wHKQ== eltex-v38@eltex-2026-summer
+
+2 Задание:
+
+
+eltex-v38@eltex-2026-summer:~$ ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.16.9.212
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/eltex-v38/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@172.16.9.212's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@172.16.9.212'"
+and check to make sure that only the key(s) you wanted were added.
+
+eltex-v38@eltex-2026-summer:~$ ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.16.9.212
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/eltex-v38/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@172.16.9.212's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@172.16.9.212'"
+and check to make sure that only the key(s) you wanted were added.
+
+
+
+3 Задание
+
+root@eltex-practice2-v38:~# cat /root/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrSlHRjQOE81/4Rwsgr057c6mdOzLtzLrOU5XQERsZYYQ3+AKDbhh0ObbgaMjJMFh6sWsrWwB5PDYOrSVvKHOz3GSPoB9lDL4PIox3HohQlsMPMteT5EmoaPqF3y/GldK9y5WPDNFIB9SGFAUdmFZzmuqhsodGjFdTqc3/ZC9m6s2sXi5UOsyjcqxezfewcfSM15SChk6CXG0Zia5ZmRmxdDXI7JmB8vEHiMueLRDkSrM8l8Ye/r6SF0GV0rwx5lfLKfrNO+eI8TO7FRKZACJeXvu034gNzzMQeDPuW2co7mcc9d/S1KrUfYqhVcXWXHhPMAUMeT+DtjJeSrMmuQML11B95Qjjl0Ju1JzTPmJiwTvuTdUNRCu2CTvVKlj4ZuVCpZN6sQUM9NQnGtjp/+I7QOq+7pxdIfCsLhzbXJUeGIhSf9kEfWduP7ParK34st/RVC2YakivgbRJsy4g3nnhMXGvRSw/mpSB6FSirx+zFxrRXPMrbzozqiIdm35vF9wwXwZYODEmHjY8wkGlfcdZp+QhQy2EanyYqZL4VQTlEJhLb0jnlF6Nf4/wcyknYzXR+J+AcwDshfz/DlKNthcBM4/S14m4a9WLvyhZ+CI86bCJcfztw9MFibikVyt+3IIqFjNFd4VBtSNHchkFlnVLowrkoV6KU1OoVt9Ay/wHKQ== eltex-v38@eltex-2026-summer
+
+Вывод на сервере 1:
+eltex-v38@eltex-2026-summer:~$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrSlHRjQOE81/4Rwsgr057c6mdOzLtzLrOU5XQERsZYYQ3+AKDbhh0ObbgaMjJMFh6sWsrWwB5PDYOrSVvKHOz3GSPoB9lDL4PIox3HohQlsMPMteT5EmoaPqF3y/GldK9y5WPDNFIB9SGFAUdmFZzmuqhsodGjFdTqc3/ZC9m6s2sXi5UOsyjcqxezfewcfSM15SChk6CXG0Zia5ZmRmxdDXI7JmB8vEHiMueLRDkSrM8l8Ye/r6SF0GV0rwx5lfLKfrNO+eI8TO7FRKZACJeXvu034gNzzMQeDPuW2co7mcc9d/S1KrUfYqhVcXWXHhPMAUMeT+DtjJeSrMmuQML11B95Qjjl0Ju1JzTPmJiwTvuTdUNRCu2CTvVKlj4ZuVCpZN6sQUM9NQnGtjp/+I7QOq+7pxdIfCsLhzbXJUeGIhSf9kEfWduP7ParK34st/RVC2YakivgbRJsy4g3nnhMXGvRSw/mpSB6FSirx+zFxrRXPMrbzozqiIdm35vF9wwXwZYODEmHjY8wkGlfcdZp+QhQy2EanyYqZL4VQTlEJhLb0jnlF6Nf4/wcyknYzXR+J+AcwDshfz/DlKNthcBM4/S14m4a9WLvyhZ+CI86bCJcfztw9MFibikVyt+3IIqFjNFd4VBtSNHchkFlnVLowrkoV6KU1OoVt9Ay/wHKQ== eltex-v38@eltex-2026-summer
+
+То есть публичные ключи идентичны.
+
+
+Права доступа к ~/.ssh/authorized_keys на сервере 2:
+
+root@eltex-practice2-v38:~# ls -la /root/.ssh/authorized_keys
+-rw------- 1 root root 753 Jul  8 06:42 /root/.ssh/authorized_keys
+
+Права доступа к ~/.ssh/authorized_keys на сервере 1:
+
+eltex-v38@eltex-2026-summer:~$ ls -ld ~/.ssh/*.pub
+-rw-r--r-- 1 eltex-v38 eltex-v38 753 июл  8 13:20 /home/eltex-v38/.ssh/id_rsa.pub
+
+
+4 Задание
+
+
+root@eltex-practice2-v38:~# useradd -m -s /bin/bash user1
+
+root@eltex-practice2-v38:~# chpasswd
+user1:1234
+
+
+5 Задание
+
+root@eltex-practice2-v38:~# adduser --disabled-password --gecos "" user2
+root@eltex-practice2-v38:~# echo "user2:1234" | chpasswd
+root@eltex-practice2-v38:~# adduser --disabled-password --gecos "" user3
+root@eltex-practice2-v38:~# echo "user3:1234" | chpasswd
+
+
+6 Задание:
+
+
+root@eltex-practice2-v38:~# usermod -s /usr/sbin/nologin user3
+
+Попытка входа под user3 без параметров:
+root@eltex-practice2-v38:~# su user3
+This account is currently not available.
+
+Попытка входа под user3 с параметрами:
+root@eltex-practice2-v38:~# su user3 -s /bin/bash
+user3@eltex-practice2-v38:/root$
+
+Выходим с пользователя:
+user3@eltex-practice2-v38:/root$ exit
+exit
+root@eltex-practice2-v38:~# 
+
+
+
+7 Задание:
+
+root@eltex-practice2-v38:~# groupadd shared_group
+root@eltex-practice2-v38:~# usermod -aG shared_group user1
+root@eltex-practice2-v38:~# usermod -aG shared_group user2
+root@eltex-practice2-v38:~# usermod -aG shared_group user3
+
+
+Проверка того что всем присвоилась группа shared_group:
+
+root@eltex-practice2-v38:~# id user1
+uid=1001(user1) gid=1001(user1) groups=1001(user1),1004(shared_group)
+root@eltex-practice2-v38:~# id user2
+uid=1002(user2) gid=1002(user2) groups=1002(user2),100(users),1004(shared_group)
+root@eltex-practice2-v38:~# id user3
+uid=1003(user3) gid=1003(user3) groups=1003(user3),100(users),1004(shared_group)
+
+9 Задание:
+
+
+root@eltex-practice2-v38:~# mkdir -p /opt/share
+root@eltex-practice2-v38:~# chown root:shared_group /opt/share
+root@eltex-practice2-v38:~# chmod 2770 /opt/share
+root@eltex-practice2-v38:~# ls -ld /opt/share
+drwxrws--- 2 root shared_group 4096 Jul  8 08:05 /opt/share
+
+
+10 Задание:
+
+Зайдем в файл конфигурации, чтобы он не сбивал UMASK:
+nano /etc/login.defs
+UMASK           027
+
+root@eltex-practice2-v38:~# echo "umask 0027" >> /home/user1/.profile
+root@eltex-practice2-v38:~# su - user1 -c "umask"
+0027
+
+11 Задание:
+
+root@eltex-practice2-v38:~# su user1 -c "touch /opt/share/user1_file.txt"
+root@eltex-practice2-v38:~# su user2 -c "touch /opt/share/user2_file.txt"
+root@eltex-practice2-v38:~# sudo -u user3 touch /opt/share/user3_file.txt
+
+
+проверяем, что все создалось
+root@eltex-practice2-v38:~# ls -la /opt/share/
+total 8
+drwxrws--- 2 root  shared_group 4096 Jul  9 12:54 .
+drwxr-xr-x 3 root  root         4096 Jul  8 08:05 ..
+-rw-rw---- 1 user1 shared_group    0 Jul  9 12:41 user1_file.txt
+-rw-rw---- 1 user2 shared_group    0 Jul  9 12:42 user2_file.txt
+-rw-rw---- 1 user3 shared_group    0 Jul  9 12:54 user3_file.txt
+
+
+Попытка user1 удалить файл user2, user2 удалить файл user3, user3 удалить файл user1:
+
+root@eltex-practice2-v38:~# sudo -u user1 rm -f /opt/share/user2_file.txt
+root@eltex-practice2-v38:~# sudo -u user2 rm -f /opt/share/user3_file.txt
+root@eltex-practice2-v38:~# sudo -u user3 rm -f /opt/share/user1_file.txt
+root@eltex-practice2-v38:~# ls -la /opt/share/
+total 8
+drwxrws--- 2 root shared_group 4096 Jul  9 13:25 .
+drwxr-xr-x 3 root root         4096 Jul  8 08:05 ..
+
+
+12 Задание:
+
+Устанавливаем sticky bit на каталоге /opt/share:
+
+root@eltex-practice2-v38:~# chmod +t /opt/share
+
+
+Создаем файл:
+
+root@eltex-practice2-v38:~# su user2 -c "touch /opt/share/user2_file.txt"
+root@eltex-practice2-v38:~# su user1 -c "touch /opt/share/user1_file.txt"
+root@eltex-practice2-v38:~# sudo -u user3 touch /opt/share/user3_file.txt
+root@eltex-practice2-v38:~# ls -la /opt/share/
+total 8
+drwxrws--T 2 root  shared_group 4096 Jul  9 13:34 .
+drwxr-xr-x 3 root  root         4096 Jul  8 08:05 ..
+-rw-rw---- 1 user1 shared_group    0 Jul  9 13:33 user1_file.txt
+-rw-rw---- 1 user2 shared_group    0 Jul  9 13:33 user2_file.txt
+-rw-rw---- 1 user3 shared_group    0 Jul  9 13:34 user3_file.txt
+
+
+
+Займемся удалением файлов:
+
+root@eltex-practice2-v38:~# sudo -u user1 rm -f /opt/share/user2_file.txt
+rm: cannot remove '/opt/share/user2_file.txt': Operation not permitted
+
+root@eltex-practice2-v38:~# sudo -u user2 rm -f /opt/share/user3_file.txt
+rm: cannot remove '/opt/share/user3_file.txt': Operation not permitted
+
+root@eltex-practice2-v38:~# sudo -u user3 rm -f /opt/share/user1_file.txt
+rm: cannot remove '/opt/share/user1_file.txt': Operation not permitted
+
+root@eltex-practice2-v38:~# ls -la /opt/share/
+total 8
+drwxrws--T 2 root  shared_group 4096 Jul  9 13:34 .
+drwxr-xr-x 3 root  root         4096 Jul  8 08:05 ..
+-rw-rw---- 1 user1 shared_group    0 Jul  9 13:33 user1_file.txt
+-rw-rw---- 1 user2 shared_group    0 Jul  9 13:33 user2_file.txt
+-rw-rw---- 1 user3 shared_group    0 Jul  9 13:34 user3_file.txt
+
+
+Файлы успешно не удалились.
+
+
+
+13 Задание:
+
+root@eltex-practice2-v38:~# echo "user1 ALL=(ALL) NOPASSWD: /usr/bin/dmesg" >> /etc/sudoers.d/user1_dmesg
+
+root@eltex-practice2-v38:~# chmod 440 /etc/sudoers.d/user1_dmesg
+
+
+
+Создаем скрипт для user2 на си:
+
+root@eltex-practice2-v38:~# cat > /tmp/dmesg_helper.c << 'EOF'
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main() {
+    // Устанавливаем реальный и эффективный UID в 0 (root)
+    setuid(0);
+    seteuid(0);
+    
+    // Вызываем dmesg
+    execl("/usr/bin/dmesg", "dmesg", NULL);
+    
+    // Если execl вернулся - ошибка
+    perror("execl");
+    return 1;
+}
+EOF
+gcc -o /usr/local/bin/dmesg_helper /tmp/dmesg_helper.c
+
+Настраиваем права:
+
+
+chown root:root /usr/local/bin/dmesg_helper
+chmod 4755 /usr/local/bin/dmesg_helper
+
+
+
+Проверка user1:
+root@eltex-practice2-v38:~# su user1 -c "sudo /usr/bin/dmesg | head -5"
+[    0.000000] Linux version 6.8.0-55-generic (buildd@lcy02-amd64-095) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #57-Ubuntu SMP PREEMPT_DYNAMIC Wed Feb 12 23:42:21 UTC 2025 (Ubuntu 6.8.0-55.57-generic 6.8.12)
+[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-6.8.0-55-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+
+
+Проверка user2:
+
+root@eltex-practice2-v38:~# su user2 -c "/usr/local/bin/dmesg_helper | head -5"
+[    0.000000] Linux version 6.8.0-55-generic (buildd@lcy02-amd64-095) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #57-Ubuntu SMP PREEMPT_DYNAMIC Wed Feb 12 23:42:21 UTC 2025 (Ubuntu 6.8.0-55.57-generic 6.8.12)
+[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-6.8.0-55-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+
+
+14 Задание:
+
+Задаем время:
+for user in user1 user2 user3; do
+	chage -M 10 $user;
+done
+
+
+Проверка:
+
+for user in user1 user2 user3; do     echo "$user: макс. возраст пароля = $(chage -l $user | grep 'Maximum' | awk -F: '{print $2}')"; done
+
+
+
+
+15 Задание:
+
+root@eltex-practice2-v38:~# echo "Иван Иванов" > /etc/motd
+
+
+Проверка:
+
+root@eltex-practice2-v38:~# echo "Шагимов Андрей" > /etc/motd
+root@eltex-practice2-v38:~# cat /etc/motd
+Шагимов Андрей
+
+
+16 Задание:
+
+mkdir -p /root/etc_backup
+rsync -av /etc/ /root/etc_backup/
+
+Размер скопированных данных:
+
+root@eltex-practice2-v38:~# du -sh /root/etc_backup/
+6.1M	/root/etc_backup/
+root@eltex-practice2-v38:~# du -sh /etc
+6.1M	/etc
+
+
+17 Задание:
+
+cd /root
+
+# gzip
+tar -czf etc_backup.tar.gz -C /root/etc_backup .
+
+# bzip2
+tar -cjf etc_backup.tar.bz2 -C /root/etc_backup .
+
+# 7zip (Скачиваем)
+which 7z || apt-get install -y p7zip-full 2>/dev/null || yum install -y p7zip 2>/dev/null
+tar -cf etc_backup.tar -C /root/etc_backup .
+7z a etc_backup.7z etc_backup.tar 2>&1 | tail -5
+
+
+
+
+Размеры архивов:
+root@eltex-practice2-v38:~# ls -lha | grep "etc_backup"
+drwxr-xr-x 109 root root 4.0K Jul  9 15:09 etc_backup
+-rw-r-----   1 root root 457K Jul  9 15:26 etc_backup.7z
+-rw-r-----   1 root root 3.3M Jul  9 15:26 etc_backup.tar
+-rw-r-----   1 root root 528K Jul  9 15:28 etc_backup.tar.bz2
+-rw-r-----   1 root root 565K Jul  9 15:22 etc_backup.tar.gz
+
+
+18 Задание:
+
+root@eltex-practice2-v38:~# echo "$(date)" > /etc/motd
+root@eltex-practice2-v38:~# cat /etc/motd
+Thu Jul  9 03:43:57 PM UTC 2026
+
+Синхронизируйте каталог /root/etc_backup с каталогом /etc при помощи rsync:
+
+root@eltex-practice2-v38:~# rsync -av /etc/ /root/etc_backup/
+
+Пересоберем архив:
+tar -czf /root/etc_backup.tar.gz -C /root/etc_backup .
+
+
+19 Задание:
+
+
+mkdir -p /tmp/etc_bzip2_compare
+tar -xjf /root/etc_backup.tar.bz2 -C /tmp etc_bzip2_compare
+
+Сравнение каталогов
+diff -rq /root/etc_backup/ /tmp/etc_bzip2_compare/
+
+
+Сравнение содержимых каталога и архива:
+root@eltex-practice2-v38:~# diff -rq /root/etc_backup/ /tmp/etc_bzip2_compare/
+Files /root/etc_backup/motd and /tmp/etc_bzip2_compare/motd differ
+diff: /root/etc_backup/mtab: No such file or directory
+diff: /tmp/etc_bzip2_compare/mtab: No such file or directory
+diff: /root/etc_backup/os-release: No such file or directory
+diff: /tmp/etc_bzip2_compare/os-release: No such file or directory
+diff: /root/etc_backup/resolv.conf: No such file or directory
+diff: /tmp/etc_bzip2_compare/resolv.conf: No such file or directory
+
+
+20 Задание
+
+
+mkdir -p /root/etc_backup_gzip /root/etc_backup_7zip
+
+# Распаковка gzip
+tar -xzf /root/etc_backup.tar.gz -C /root/etc_backup_gzip/
+
+Распаковка 7zip (сначала распаковываем tar, потом 7z)
+root@eltex-practice2-v38:~# 7z x /root/etc_backup.7z -o/root/temp_7z
+root@eltex-practice2-v38:~# tar -xf /root/temp_7z/etc_backup.tar -C /root/etc_backup_7zip/
+root@eltex-practice2-v38:~# rm -rf /root/temp_7z
+
+
+root@eltex-practice2-v38:~# rm -rf /root/temp_7z
+root@eltex-practice2-v38:~# diff /root/etc_backup_gzip/motd /root/etc_backup_7zip/motd
+1c1
+< Thu Jul  9 03:43:57 PM UTC 2026
+---
+> Шагимов Андрей
+
+
+root@eltex-practice2-v38:~# cat /root/etc_backup_gzip/motd
+Thu Jul  9 03:43:57 PM UTC 2026
+root@eltex-practice2-v38:~# cat /root/etc_backup_7zip/motd
+Шагимов Андрей
+root@eltex-practice2-v38:~# 
+
+
+Отличаются лишь файлом motd, потому что я сменил содержимое в моменте
