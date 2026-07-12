@@ -1,0 +1,249 @@
+1 Задание:
+
+Я был зарегистрирован на github.com до этого
+
+
+2 Задание:
+
+
+Настраиваем git среду:
+root@eltex-practice2-v38:~# git config --global user.name "Chumnoi-grach"
+root@eltex-practice2-v38:~# git config --global user.email "andreysha0608@gmail.com"
+root@eltex-practice2-v38:~# git config --global init.defaultBranch main
+root@eltex-practice2-v38:~# git config --list
+user.name=Chumnoi-grach
+user.email=andreysha0608@gmail.com
+init.defaultbranch=main
+
+
+3 Задание:
+
+Обновляем список пакетов
+apt update
+
+Устанавливаем git и github-cli
+apt install -y git gh
+
+
+4 Задание:
+
+
+Создадим ssh ключ:
+ssh-keygen -t ed25519 -f ~/.ssh/Chumnoi-grach -C "andreysha0608@gmail.com"
+
+Выведем его:
+root@eltex-practice2-v38:~# cat .ssh/Chumnoi-grach.pub 
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJudqh8DRdWT+kI2jrGN/3LFOXk7WZQkxyIGvZSD0Hh andreysha0608@gmail.com
+
+
+
+
+5 Задание:
+
+Логинимся с пк:
+
+root@eltex-practice2-v38:~# gh auth login
+? What account do you want to log into? GitHub.com
+? What is your preferred protocol for Git operations on this host? SSH
+? Upload your SSH public key to your GitHub account? /root/.ssh/Chumnoi-grach.pub
+? Title for your SSH key: eltex-practice2-v38
+? How would you like to authenticate GitHub CLI? Login with a web browser
+
+! First copy your one-time code: 18DE-9EAF
+Press Enter to open github.com in your browser... 
+! Failed opening a web browser at https://github.com/login/device
+  exec: "xdg-open,x-www-browser,www-browser,wslview": executable file not found in $PATH
+  Please try entering the URL in your browser manually
+✓ Authentication complete.
+- gh config set -h github.com git_protocol ssh
+✓ Configured git protocol
+! Authentication credentials saved in plain text
+✓ Uploaded the SSH key to your GitHub account: /root/.ssh/Chumnoi-grach.pub
+✓ Logged in as Chumnoi-grach
+
+
+
+
+6 Задание:
+
+Укажем автоматическую авторизацию только для сайта github.com:
+gh auth setup-git --hostname github.com
+
+
+7 Задание:
+
+Проверяем, что все ОК:
+
+root@eltex-practice2-v38:~# gh auth status
+github.com
+  ✓ Logged in to github.com account Chumnoi-grach (/root/.config/gh/hosts.yml)
+  - Active account: true
+  - Git operations protocol: ssh
+  - Token: gho_************************************
+  - Token scopes: 'admin:public_key', 'gist', 'read:org', 'repo'
+
+
+
+8 Задание:
+
+Создаем репозиторий:
+root@eltex-practice2-v38:~# gh repo create --public Repo_from_eltex
+✓ Created repository Chumnoi-grach/Repo_from_eltex on GitHub
+  https://github.com/Chumnoi-grach/Repo_from_eltex
+
+Репозиторий создался в клиенте Github.com
+
+
+
+9 Задание:
+
+root@eltex-practice2-v38:# mkdir ~/Repo_from_eltex && cd ~/Repo_from_eltex
+root@eltex-practice2-v38:~/Repo_from_eltex# echo "# краткое_описание_репозитория" >> README.md
+root@eltex-practice2-v38:~/Repo_from_eltex# git init
+root@eltex-practice2-v38:~/Repo_from_eltex# git add README.md
+root@eltex-practice2-v38:~/Repo_from_eltex# git commit -m "first commit"
+root@eltex-practice2-v38:~/Repo_from_eltex# git branch -M main
+Но у нас и так ветка называется main, это перестраховка от старых версий
+
+root@eltex-practice2-v38:~/Repo_from_eltex# git remote add origin https://github.com/Chumnoi-grach/Repo_from_eltex.git
+root@eltex-practice2-v38:~/Repo_from_eltex# git status
+On branch main
+nothing to commit, working tree clean
+
+root@eltex-practice2-v38:~/Repo_from_eltex# git push -u origin main
+root@eltex-practice2-v38:~/Repo_from_eltex# mkdir -p module1/task1
+root@eltex-practice2-v38:~/Repo_from_eltex# mkdir module1/task2
+root@eltex-practice2-v38:~/Repo_from_eltex# mkdir module1/task3
+
+
+Вводим команду для получения отчетов с первого сервера
+scp -p 44556 -r eltex-v38@217.71.138.1:/path/to/practice1/reports/* ./module1/task1/
+
+Она не работает, потому что у нас нет доступа по ssh
+скопируем отчеты иначе:
+
+root@eltex-practice2-v38:~# touch eltex-v38_part1.log
+root@eltex-practice2-v38:~# touch eltex-v38_part2.log
+root@eltex-practice2-v38:~# touch eltex-v38_part3.log
+
+скопируем содержимое первой практики и вставим в эти файлы
+
+root@eltex-practice2-v38:~# nano eltex-v38_part1.log
+root@eltex-practice2-v38:~# nano eltex-v38_part2.log
+root@eltex-practice2-v38:~# nano eltex-v38_part3.log
+
+переместим их по папкам:
+root@eltex-practice2-v38:~/Repo_from_eltex# mv eltex-v38_part1.log module1/task1/
+root@eltex-practice2-v38:~/Repo_from_eltex# mv eltex-v38_part2.log module1/task2/
+root@eltex-practice2-v38:~/Repo_from_eltex# mv eltex-v38_part3.log module1/task3/
+
+
+root@eltex-practice2-v38:~/Repo_from_eltex# git add .
+root@eltex-practice2-v38:~/Repo_from_eltex# git status
+root@eltex-practice2-v38:~/Repo_from_eltex# git commit -m "комментарий"
+root@eltex-practice2-v38:~/Repo_from_eltex# git push
+
+
+10 Задание:
+
+root@eltex-practice2-v38:~/Repo_from_eltex/module1# mkdir ~/Repo_from_eltex_clone 
+root@eltex-practice2-v38:~# cd Repo_from_eltex_clone/
+root@eltex-practice2-v38:~/Repo_from_eltex_clone# git clone https://github.com/Chumnoi-grach/Repo_from_eltex.git
+
+
+11 Задание:
+
+root@eltex-practice2-v38:~/Repo_from_eltex_clone# cd ~/Repo_from_eltex
+
+root@eltex-practice2-v38:~/Repo_from_eltex# echo "New file" > new_file.txt
+
+root@eltex-practice2-v38:~/Repo_from_eltex# git add new_file.txt
+root@eltex-practice2-v38:~/Repo_from_eltex# git commit -m "Added new file"
+root@eltex-practice2-v38:~/Repo_from_eltex# git push
+
+
+
+
+Переходим в каталог с клоном
+root@eltex-practice2-v38:~/Repo_from_eltex# cd ~/Repo_from_eltex_clone/Repo_from_eltex
+
+Получаем изменения с сервера
+root@eltex-practice2-v38:~/Repo_from_eltex_clone/Repo_from_eltex# git fetch
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 310 bytes | 310.00 KiB/s, done.
+From https://github.com/Chumnoi-grach/Repo_from_eltex
+   f24d93d..b94ed46  main       -> origin/main
+   
+   
+Смотрим лог изменений
+root@eltex-practice2-v38:~/Repo_from_eltex_clone/Repo_from_eltex# git log origin/main
+
+commit b94ed469d17487798164bdd780dbe7c1374b4ff2 (origin/main, origin/HEAD)
+Author: Chumnoi-grach <andreysha0608@gmail.com>
+Date:   Sun Jul 12 10:37:16 2026 +0000
+
+    Added new file
+
+commit f24d93dd5b1cb6889aa9b6429c8da81ff4d1c9e8 (HEAD -> main)
+Author: Chumnoi-grach <andreysha0608@gmail.com>
+Date:   Sun Jul 12 08:59:27 2026 +0000
+
+    ввел логи
+
+commit 1a157ba2d3210465da76255c062eaabba6072920
+Author: Chumnoi-grach <andreysha0608@gmail.com>
+Date:   Sun Jul 12 08:53:07 2026 +0000
+
+    Отчеты с 1 Модуля
+    
+Это последние 3 коммита среди которых есть Added new file - последний наш коммит
+
+Сравниваем изменения
+root@eltex-practice2-v38:~/Repo_from_eltex_clone/Repo_from_eltex# git diff main origin/main
+diff --git a/new_file.txt b/new_file.txt
+new file mode 100644
+index 0000000..ea450f9
+--- /dev/null
++++ b/new_file.txt
+@@ -0,0 +1 @@
++New file
+
+
+Сливаем изменения (merge)
+root@eltex-practice2-v38:~/Repo_from_eltex_clone/Repo_from_eltex# git merge
+
+
+12 Задание:
+
+root@eltex-practice2-v38:~/Repo_from_eltex_clone/Repo_from_eltex# cd ~/Repo_from_eltex/
+
+Копируем файлы от 2 практики
+root@eltex-practice2-v38:~/Repo_from_eltex# mkdir -p module2/task1
+root@eltex-practice2-v38:~/Repo_from_eltex# mkdir module2/task2
+root@eltex-practice2-v38:~/Repo_from_eltex# mkdir module2/task3
+
+root@eltex-practice2-v38:~/Repo_from_eltex# nano module2/task1/practice2_eltex-v38_part1.log
+root@eltex-practice2-v38:~/Repo_from_eltex# nano module2/task2/practice2_eltex-v38_part2.log
+root@eltex-practice2-v38:~/Repo_from_eltex# nano module2/task3/practice2_eltex-v38_part3.log
+
+коммитим
+root@eltex-practice2-v38:~/Repo_from_eltex# git add .
+root@eltex-practice2-v38:~/Repo_from_eltex# git commit -m "Added reports from practice 2"
+[main 7219117] Added reports from practice 2
+ 3 files changed, 977 insertions(+)
+ create mode 100644 module2/task1/practice2_eltex-v38_part1.log
+ create mode 100644 module2/task2/practice2_eltex-v38_part2.log
+ create mode 100644 module2/task3/practice2_eltex-v38_part3.log
+root@eltex-practice2-v38:~/Repo_from_eltex# git push
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (9/9), 16.45 KiB | 16.45 MiB/s, done.
+Total 9 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/Chumnoi-grach/Repo_from_eltex.git
+   b94ed46..7219117  main -> main
+   
