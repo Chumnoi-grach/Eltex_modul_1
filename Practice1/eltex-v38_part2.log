@@ -1,5 +1,13 @@
+1 Задание:
 script -q eltex-v38_part.log
+
+
+Настроим преглашение
 export PS1="\u@\h:\w\$ "
+
+
+2 Задание:
+
 eltex-v38@eltex-2026-summer:~$ ls
 ls           lsfd         lslogins     lspci
 lsattr       lsinitramfs  lsmem        lsusb
@@ -7,35 +15,253 @@ lsblk        lsipc        lsmod
 lsb_release  lsirq        lsns         
 lscpu        lslocks      lsof  
 
+
+3 Задание:
+
 eltex-v38@eltex-2026-summer:~$ $HIST
 $HISTCMD       $HISTFILE      $HISTSIZE      
 $HISTCONTROL   $HISTFILESIZE 
 
-ls -a ~/ | grep "^\."
 
-echo $HISTFILESIZE
-export HISTTIMEFORMAT="%F %T "
-history 10
-history | tail -5
-tail -5 ~/.bash_history
-export PROMPT_COMMAND="history -a"
+4 Задание:
+
+eltex-v38@eltex-2026-summer:~$ echo $HISTFILESIZE
+2000
+
+
+5 Задание:
+eltex-v38@eltex-2026-summer:~$ ls -a ~/ | grep "^\."
+.
+..
+.bash_history
+.bash_logout
+.bashrc
+.profile
+.ssh
+.viminfo
+
+
+6 Задание:
+eltex-v38@eltex-2026-summer:~$ export HISTTIMEFORMAT="%F "
+eltex-v38@eltex-2026-summer:~$ history 10
+  412  2026-07-10 git status
+  413  2026-07-10 apt install git
+  414  2026-07-10 sudo apt install git
+  415  2026-07-10 echo $HISTFILESIZE
+  416  2026-07-10 export HISTTIMEFORMAT="%F %T "
+  417  2026-07-10 history 10
+  418  2026-07-10 export HISTTIMEFORMAT="%F"
+  419  2026-07-10 history 10
+  420  2026-07-10 export HISTTIMEFORMAT="%F "
+  421  2026-07-10 history 10
+
+
+7 Задание:
+
+eltex-v38@eltex-2026-summer:~$ history | tail -5
+  418  2026-07-10 export HISTTIMEFORMAT="%F"
+  419  2026-07-10 history 10
+  420  2026-07-10 export HISTTIMEFORMAT="%F "
+  421  2026-07-10 history 10
+  422  2026-07-10 history | tail -5
+eltex-v38@eltex-2026-summer:~$ tail -5 ~/.bash_history
+cat .ssh/authorized_keys
+ls -a
+ls -a .ssh
+nano .ssh/authorized_keys
+exit
+
+eltex-v38@eltex-2026-summer:~$ export PROMPT_COMMAND="history -a"
+eltex-v38@eltex-2026-summer:~$ date
+Пт 10 июл 2026 14:37:10 +07
+eltex-v38@eltex-2026-summer:~$ history | tail -5
+  429  2026-07-10 history | tail -5
+  430  2026-07-10 tail -5 ~/.bash_history
+  431  2026-07-10 ls
+  432  2026-07-10 date
+  433  2026-07-10 history | tail -5
+
+eltex-v38@eltex-2026-summer:~$ tail -5 ~/.bash_history
+
+ls
+#1783669110
 date
+#1783669113
 history | tail -5
-tail -5 ~/.bash_history
+
+
+
+#1783669110 и #1783669113 отображаются из-зи настройки переменной окружения HISTTIMEFORMAT
+
+10 Задание:
 
 DATE=$(date +%Y-%m-%d)
 echo $DATE
+2026-07-10
+
+
+11 Задание:
 
 TIME=$(date +%H:%M:%S)
 echo $TIME
+14:43:54
 
+12 Задание:
 DATE_TIME="$DATE $TIME"
 echo $DATE_TIME
+2026-07-10 14:43:54
 
+13 Задание:
 ls /bin /sbin | grep "[0-9]"
+addr2line
+b2sum
+base32
+base64
+bunzip2
+bzip2
+bzip2recover
+c89
+c89-gcc
+c99
+c99-gcc
+cpan5.36-x86_64-linux-gnu
+cpp-12
+diff3
+enc2xs
+gcc-12
+gcc-ar-12
+gcc-nm-12
+gcc-ranlib-12
+gcov-12
+gcov-dump-12
+gcov-tool-12
+grub-menulst2cfg
+grub-mkpasswd-pbkdf2
+grub-syslinux2cfg
+h2ph
+h2xs
+i386
+linux32
+linux64
+lto-dump-12
+md5sum
+md5sum.textutils
+pdb3
+pdb3.11
+perl5.36.0
+perl5.36-x86_64-linux-gnu
+ping4
+ping6
+pl2pm
+pod2html
+pod2man
+pod2text
+pod2usage
+py3clean
+py3compile
+py3versions
+pydoc3
+pydoc3.11
+pygettext3
+pygettext3.11
+python3
+python3.11
+sha1sum
+sha224sum
+sha256sum
+sha384sum
+sha512sum
+ssh-argv0
+systemd-id128
+traceroute6
+traceroute6.db
+x86_64
+x86_64-linux-gnu-addr2line
+x86_64-linux-gnu-ar
+x86_64-linux-gnu-as
+x86_64-linux-gnu-c++filt
+x86_64-linux-gnu-cpp
+x86_64-linux-gnu-cpp-12
+x86_64-linux-gnu-dwp
+x86_64-linux-gnu-elfedit
+x86_64-linux-gnu-gcc
+x86_64-linux-gnu-gcc-12
+x86_64-linux-gnu-gcc-ar
+x86_64-linux-gnu-gcc-ar-12
+x86_64-linux-gnu-gcc-nm
+x86_64-linux-gnu-gcc-nm-12
+x86_64-linux-gnu-gcc-ranlib
+x86_64-linux-gnu-gcc-ranlib-12
+x86_64-linux-gnu-gcov
+x86_64-linux-gnu-gcov-12
+x86_64-linux-gnu-gcov-dump
+x86_64-linux-gnu-gcov-dump-12
+x86_64-linux-gnu-gcov-tool
+x86_64-linux-gnu-gcov-tool-12
+x86_64-linux-gnu-gold
+x86_64-linux-gnu-gp-archive
+x86_64-linux-gnu-gp-collect-app
+x86_64-linux-gnu-gp-display-html
+x86_64-linux-gnu-gp-display-src
+x86_64-linux-gnu-gp-display-text
+x86_64-linux-gnu-gprof
+x86_64-linux-gnu-gprofng
+x86_64-linux-gnu-ld
+x86_64-linux-gnu-ld.bfd
+x86_64-linux-gnu-ld.gold
+x86_64-linux-gnu-lto-dump
+x86_64-linux-gnu-lto-dump-12
+x86_64-linux-gnu-nm
+x86_64-linux-gnu-objcopy
+x86_64-linux-gnu-objdump
+x86_64-linux-gnu-ranlib
+x86_64-linux-gnu-readelf
+x86_64-linux-gnu-size
+x86_64-linux-gnu-strings
+x86_64-linux-gnu-strip
+dumpe2fs
+e2freefrag
+e2fsck
+e2image
+e2label
+e2mmpstatus
+e2scrub
+e2scrub_all
+e2undo
+e4crypt
+e4defrag
+fsck.ext2
+fsck.ext3
+fsck.ext4
+killall5
+mke2fs
+mkfs.ext2
+mkfs.ext3
+mkfs.ext4
+resize2fs
+tune2fs
+update-grub2
 
-export PS1="\u@\h-$(date +%H:%M)> "
 
-echo 'echo $PS1' > test_ps1.sh
-bash --norc --noprofile
-exit
+14 Задание:
+eltex-v38@eltex-2026-summer:~$ export PS1="\u@\h-$(date +%H:%M)> "
+eltex-v38@eltex-2026-summer-14:45>
+
+
+15 Задание:
+eltex-v38@eltex-2026-summer-14:45> echo 'echo $PS1' > test_ps1.sh
+eltex-v38@eltex-2026-summer-14:45> bash --norc --noprofile
+eltex-v38@eltex-2026-summer-14:45> exit
+
+16 Задание:
+eltex-v38@eltex-2026-summer-14:45> mkdir -p ~/$(date +%Y)-{01..12}
+
+eltex-v38@eltex-2026-summer-14:45> ls
+2026-01  2026-06  2026-11                    eltex-v38_part.log
+2026-02  2026-07  2026-12                    practice2_eltex-v38_part1.log
+2026-03  2026-08  D1                         report_part1.txt
+2026-04  2026-09  eltex-v38_part3_gt20M.log  test_ps1.sh
+2026-05  2026-10  eltex-v38_part3.log        -v38_part3_gt20M.log
+
+
+

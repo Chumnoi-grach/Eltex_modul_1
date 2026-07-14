@@ -1,19 +1,45 @@
+2 Задание:
 mkdir -p D1/D2/D3
+
+3 Задание:
 touch D1/D2/file.txt
+
+4 Задание:
 echo "Произвольный текст" > D1/D2/file.txt
+
+5 Задание:
 cd D1/D2/D3
+
+6 Задание:
 ln -s ../file.txt symbolic_link.txt
 ln ../file.txt hard_link1.txt
 ln ../file.txt hard_link2.txt
 cd ~
+
+Проверка:
+ls -li D1/D2/D3/
 total 8
 262314 -rw-r--r-- 3 eltex-v38 eltex-v38 36 июл  8 01:03 hard_link1.txt
 262314 -rw-r--r-- 3 eltex-v38 eltex-v38 36 июл  8 01:03 hard_link2.txt
 262315 lrwxrwxrwx 1 eltex-v38 eltex-v38 11 июл  8 01:09 symbolic_link.txt -> ../file.txt
-ls -li D1/D2/D3/
+
+
+7 Задание:
 mv D1/D2/file.txt D1/
+
+8 Задание:
 ls -li D1/D2/D3/
+262270 -rw-r--r-- 3 eltex-v38 eltex-v38 36 июл 10 14:59 hard_link1.txt
+262270 -rw-r--r-- 3 eltex-v38 eltex-v38 36 июл 10 14:59 hard_link2.txt
+262357 lrwxrwxrwx 1 eltex-v38 eltex-v38 11 июл 10 14:59 symbolic_link.txt -> ../file.txt
+
+надпись symbolic_link.txt теперь красная, значит ссылка не работает
+
+
+9 Задание:
 rm -rf D1/D2
+
+10 Задание
 find / -type f -size +20M 2>/dev/null > eltex-v38_part3_gt20M.log
 head -5 -v38_part3_gt20M.log | xargs du -h 2>/dev/null | tee -a eltex-v38_part3.log
 4,0K	./2026-08
@@ -33,7 +59,42 @@ head -5 -v38_part3_gt20M.log | xargs du -h 2>/dev/null | tee -a eltex-v38_part3.
 4,0K	./2026-04
 108K	.
 cat eltex-v38_part3_gt20M.log | xargs du -h 2>/dev/null
-cat eltex-v38_part3_gt20M.log | xargs du -h 2>/dev/null
+31M	/usr/bin/x86_64-linux-gnu-lto-dump-12
+31M	/usr/lib/gcc/x86_64-linux-gnu/12/lto1
+32M	/usr/lib/gcc/x86_64-linux-gnu/12/cc1
+30M	/usr/lib/x86_64-linux-gnu/libicudata.so.72.1
+0	/proc/kcore
+33M	/boot/initrd.img-6.1.0-44-amd64
+33M	/boot/initrd.img-6.1.0-50-amd64
+163M	/var/log/btmp.1
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-00000000000db8c9-000653f1df947936.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000012bd18-0006541efb4e910b.journal
+43M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000013b06c-000654303a1201f5.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-00000000000bb4ae-000653e0e464fbba.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000011beb5-000654152c40ea73.journal
+33M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@000654e914b0fb5f-f20d94ab522960d7.journal~
+43M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000014a0db-000654440c96a329.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000008bb32-000653c297309edc.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000006c613-000653aba9b1991f.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000009b91d-000653cc93c81e56.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-00000000000fbec9-0006540279fb0af2.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-00000000000ab4ea-000653d77c5c1149.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000007c1cf-000653b69ef32fa6.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-000000000010c0ec-0006540b1cd179ef.journal
+44M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-00000000000cb658-000653e97bef6d7f.journal
+45M	/var/log/journal/8247b53b6ae84ae0ad9bb1c96113fd29/system@4f44ef78d53d4cd0a5555898b8d0015b-00000000000ebb8b-000653fa31acb7c1.journal
+39M	/var/cache/apt/srcpkgcache.bin
+39M	/var/cache/apt/pkgcache.bin
+48M	/var/lib/apt/lists/deb.debian.org_debian_dists_bookworm_main_binary-amd64_Packages
+49M	/var/lib/apt/lists/deb.debian.org_debian_dists_bookworm_main_source_Sources
+32M	/var/lib/apt/lists/deb.debian.org_debian_dists_bookworm_main_i18n_Translation-en
+
+
+Вот все эти файлы в человекочетабольном виде
+
+
+11 и 12 Задания:
+
 find ~ -type f -mtime -1 2>/dev/null
 /home/eltex-v38/eltex-v38_part3_gt20M.log
 /home/eltex-v38/-v38_part3_gt20M.log
@@ -41,14 +102,25 @@ find ~ -type f -mtime -1 2>/dev/null
 /home/eltex-v38/D1/file.txt
 /home/eltex-v38/eltex-v38_part3.log
 /home/eltex-v38/.bash_history
+
+
+
+13 Задание:
+
 which find
 /usr/bin/find
+
+
+
+
+14 Задание:
+
 file `which find`
-file `which find`
-file /boot/initrd.img* 2>/dev/null
-file /boot/initrd.img* 2>/dev/null
-/boot/initrd.img-6.1.0-44-amd64: ASCII cpio archive (SVR4 with no CRC)
-/boot/initrd.img-6.1.0-50-amd64: ASCII cpio archive (SVR4 with no CRC)
-/boot/initrd.img-6.1.0-44-amd64: ASCII cpio archive (SVR4 with no CRC)
-/boot/initrd.img-6.1.0-50-amd64: ASCII cpio archive (SVR4 with no CRC)
 /usr/bin/find: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5545a6c7162d325fbe5ffabcbfe4e5521b66ce70, for GNU/Linux 3.2.0, stripped
+
+
+15 Задание:
+file /boot/initrd.img* 2>/dev/null
+/boot/initrd.img-6.1.0-44-amd64: ASCII cpio archive (SVR4 with no CRC)
+/boot/initrd.img-6.1.0-50-amd64: ASCII cpio archive (SVR4 with no CRC)
+

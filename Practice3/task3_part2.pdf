@@ -1,0 +1,414 @@
+1 Задание:
+
+
+Напишем скрипт cuckoo.sh на Bash:
+
+root@eltex-practice2-v38:~# cat cuckoo.sh
+#!/bin/bash
+SCRIPT_NAME="cuckoo"
+LOG_FILE="cuckoo.log"
+PIPE_DIR="/tmp/run"
+PIPE_NAME="cuckoo.pid"
+PID_FILE="/tmp/cuckoo.pid"
+
+mkdir -p "$PIPE_DIR"
+rm -f "$PIPE_DIR/$PIPE_NAME"
+mkfifo "$PIPE_DIR/$PIPE_NAME"
+
+# Записываем PID скрипта в файл
+echo $$ > "$PID_FILE"
+
+log_message() {
+    	echo "$(date '+%Y-%m-%d %H:%M:%S') $1" >> "$LOG_FILE"
+}
+
+# Обработчик сигнала завершения
+cleanup() {
+	log_message "Shutdown!"
+    	rm -f "$PIPE_DIR/$PIPE_NAME"
+    	rm -f "$PID_FILE"
+    	exit 0
+}
+
+trap cleanup SIGTERM SIGINT
+
+log_message "Startup!"
+
+while true; do
+	if read request < "$PIPE_DIR/$PIPE_NAME"; then
+        	if [[ "$request" =~ ^(.*)\[([0-9]+)\]:\ how\ much\ time\ do\ I\ have\?$ ]]; then
+			NAME="${BASH_REMATCH[1]}"
+            		PID="${BASH_REMATCH[2]}"
+            		N=$(( (RANDOM % 9) + 2 ))
+			
+			# Возвращаем N в канал и в консоль
+			echo "$N" > "$PIPE_DIR/$PIPE_NAME"
+			echo "$N"
+
+            		log_message "$NAME[$PID] $N"
+        fi
+    fi
+done
+
+
+
+
+Напишем скрипт-клиент test_client_cuckoo.sh на Bash который будет отправлять сообщение в канал, и будет принимать ответ с этого же канала, в запрос он записывает название скрипта, а это test_client_cuckoo.sh и передает PID своего процесса:
+
+root@eltex-practice2-v38:~# cat test_client_cuckoo.sh 
+#!/bin/bash
+FIFO_PATH="/tmp/run/cuckoo.pid"
+
+# Проверяем существование канала
+if [[ ! -p "${FIFO_PATH}" ]]; then
+    echo "Ошибка: Канал ${FIFO_PATH} не найден."
+    exit 1
+fi
+
+NAME="${0##*/}"
+PID=$$
+REQUEST="${NAME}[${PID}]: how much time do I have?"
+
+echo "${REQUEST}" > "${FIFO_PATH}"
+
+if read -r answer < "${FIFO_PATH}"; then
+    echo "Получен ответ: ${answer} секунд"
+else
+    echo "Ошибка: Не удалось прочитать ответ"
+    exit 1
+fi
+
+
+
+2 Задание:
+
+Запускаем окна через утилиту screen:
+root@eltex-practice2-v38:~# screan -S part3
+
+Создадим окно и запустим там основной скрипт, параллельно в другом окне запустим несколько клиентов а после завершим процесс, подав на него сигнал SIGINT:
+root@eltex-practice2-v38:~# bash cuckoo.sh
+7
+7
+3
+^C
+
+
+Во втором окне:
+root@eltex-practice2-v38:~# bash test_client_cuckoo.sh
+root@eltex-practice2-v38:~# bash test_client_cuckoo.sh
+root@eltex-practice2-v38:~# bash test_client_cuckoo.sh
+
+
+Итоговые логи:
+root@eltex-practice2-v38:~# cat cuckoo.log
+2026-07-14 14:05:19 Startup!
+2026-07-14 14:05:42 test_client_cuckoo.sh[19954] 7
+2026-07-14 14:05:54 test_client_cuckoo.sh[19956] 7
+2026-07-14 14:06:20 test_client_cuckoo.sh[19959] 3
+2026-07-14 14:13:48 Shutdown!
+
+
+
+3 Задание:
+
+Скрипт template_task.sh:
+
+root@eltex-practice2-v38:~# cat template_task.sh
+#!/bin/bash
+
+# template_task.sh - шаблон для рабочих задач
+
+SCRIPT_NAME=$(basename "$0")
+PID=$$
+PIPE="/tmp/run/cuckoo.pid"
+
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [$PID] $1" >> "report_${SCRIPT_NAME%.*}.log"
+}
+
+if [ "$SCRIPT_NAME" = "template_task.sh" ]; then
+    echo "я бригадир, сам не работаю"
+    exit 1
+fi
+
+log_message "Скрипт запущен"
+
+if [ ! -p "$PIPE" ]; then
+    log_message "Ошибка: Канал $PIPE не найден"
+    exit 1
+fi
+
+REQUEST="$SCRIPT_NAME[$PID]: how much time do I have?"
+echo "$REQUEST" > "$PIPE"
+
+if read N < "$PIPE"; then
+    log_message "Получено время: $N секунд"
+    sleep "$N"
+    log_message "Скрипт завершился, работал $N секунд"
+else
+    log_message "Ошибка: Не удалось получить время от cuckoo"
+    exit 1
+fi
+
+
+
+
+
+
+4 Задание:
+
+_FILE="observer.log"
+SCRIPT_DIR="$(dirname "$0")"
+
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $1" >> "$LOG_FILE"
+}
+
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Ошибка: Файл конфигурации $CONFIG_FILE не найден"
+    exit 1
+fi
+
+while IFS= read -r script_name || [ -n "$script_name" ]; do
+    [[ -z "$script_name" || "$script_name" =~ ^# ]] && continue
+    
+    if [ ! -f "$SCRIPT_DIR/$script_name" ]; then
+        log_message "Ошибка: Скрипт $script_name не найден"
+        continue
+    fi
+    
+    if pgrep -f "$script_name" > /dev/null 2>&1; then
+        log_message "Процесс $script_name уже запущен"
+    else
+        log_message "Запуск процесса $script_name"
+        cd "$SCRIPT_DIR" && nohup "./$script_name" > /dev/null 2>&1 &
+
+	#Проверяем, что процесс запущен
+        sleep 1
+        if pgrep -f "$script_name" > /dev/null 2>&1; then
+            log_message "Процесс $script_name успешно запущен (PID: $(pgrep -f "$script_name"))"
+        else
+            log_message "Ошибка: Не удалось запустить $script_name"
+        fi
+    fi
+done < "$CONFIG_FILE"
+
+
+
+
+
+
+5 Задание:
+
+root@eltex-practice2-v38:~# crontab -e
+
+Добавляем строку для запуска каждую минуту
+* * * * * /root/path_to_scripts/observer.sh
+
+root@eltex-practice2-v38:~# crontab -l
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+* * * * * /root/observer.sh
+
+
+
+root@eltex-practice2-v38:~# tail -f /var/log/syslog | grep CRON
+2026-07-14T16:30:01.905723+00:00 localhost CRON[20550]: (root) CMD (/root/observer.sh)
+2026-07-14T16:30:01.906487+00:00 localhost CRON[20549]: (CRON) info (No MTA installed, discarding output)
+2026-07-14T16:31:01.909044+00:00 localhost CRON[20555]: (root) CMD (/root/observer.sh)
+
+
+
+6 Задание:
+
+Создадим кучу символьных ссылок на template_task.sh:
+root@eltex-practice2-v38:~# ln -s template_task.sh task1for_obs.sh
+root@eltex-practice2-v38:~# ln -s template_task.sh task2for_obs.sh
+root@eltex-practice2-v38:~# ln -s template_task.sh task3for_obs.sh
+root@eltex-practice2-v38:~# ln -s template_task.sh task4for_obs.sh
+root@eltex-practice2-v38:~# ln -s template_task.sh task5for_obs.sh
+
+Настроим файл конфига:
+root@eltex-practice2-v38:~# cat observer.conf 
+task1for_obs.sh
+task2for_obs.sh
+task3for_obs.sh
+task4for_obs.sh
+task5for_obs.sh
+
+
+7 Задание:
+
+Комментируем строку с observer.sh:
+root@eltex-practice2-v38:~# crontab -e
+
+
+Сделаем скрипт для разворачивания всей структуры
+
+root@eltex-practice2-v38:~# cat deploy.sh 
+#!/bin/bash
+
+echo "Развертывание системы"
+
+rm report_task*_worker.log
+rm observer.log
+
+chmod +x *.sh
+
+for i in {1..5}; do
+    ln -sf template_task.sh task${i}_worker.sh
+done
+
+cat > observer.conf << EOF
+task1_worker.sh
+task2_worker.sh
+task3_worker.sh
+task4_worker.sh
+task5_worker.sh
+EOF
+
+nohup ./cuckoo.sh > /dev/null 2>&1 &
+echo "cuckoo.sh запущен с PID: $!"
+
+(crontab -l 2>/dev/null; echo "* * * * * cd $(pwd) && bash observer.sh >> /dev/null 2>&1") | crontab -
+echo "Cron задача добавлена"
+
+echo "Развертывание завершено"
+echo "Наблюдайте за логами: tail -f observer.log"
+
+
+
+
+И сделаем скрипт для завершения работы:
+root@eltex-practice2-v38:~# cat stop.sh 
+#!/bin/bash
+echo "Остановка системы"
+
+# Удаляем задачу из cron
+crontab -l | grep -v observer.sh | crontab -
+echo "Cron задача удалена"
+
+pkill -f cuckoo.sh
+pkill -f task1for_obs.sh
+pkill -f observer.sh
+
+rm -f /tmp/run/cuckoo.pid
+rm -f /tmp/cuckoo.pid
+
+echo "Очистка завершена"
+
+
+
+
+
+Содержимое Cuckoo.log:
+
+root@eltex-practice2-v38:~# cat cuckoo.log 
+2026-07-14 17:23:42 Startup!
+2026-07-14 17:24:01 task1_worker.sh[21964] 4
+2026-07-14 17:24:02 task2_worker.sh[21977] 6
+2026-07-14 17:24:03 task3_worker.sh[21990] 5
+2026-07-14 17:24:04 task4_worker.sh[22003] 4
+2026-07-14 17:24:05 task5_worker.sh[22017] 5
+2026-07-14 17:24:30 Shutdown!
+2026-07-14 17:28:40 Startup!
+2026-07-14 17:29:01 task1_worker.sh[22225] 6
+2026-07-14 17:29:02 task2_worker.sh[22238] 5
+2026-07-14 17:29:03 task3_worker.sh[22251] 5
+2026-07-14 17:29:04 task4_worker.sh[22264] 4
+2026-07-14 17:29:05 task5_worker.sh[22277] 8
+2026-07-14 17:30:01 task1_worker.sh[22311] 6
+2026-07-14 17:30:02 task2_worker.sh[22324] 5
+2026-07-14 17:30:03 task3_worker.sh[22337] 8
+2026-07-14 17:30:04 task4_worker.sh[22350] 6
+2026-07-14 17:30:05 task5_worker.sh[22363] 6
+2026-07-14 17:30:35 Shutdown!
+
+
+
+
+
+Содержимое observer.log:
+root@eltex-practice2-v38:~# cat observer.log
+2026-07-14 17:29:01 Запуск процесса task1_worker.sh
+2026-07-14 17:29:02 Процесс task1_worker.sh успешно запущен (PID: 22225)
+2026-07-14 17:29:02 Запуск процесса task2_worker.sh
+2026-07-14 17:29:03 Процесс task2_worker.sh успешно запущен (PID: 22238)
+2026-07-14 17:29:03 Запуск процесса task3_worker.sh
+2026-07-14 17:29:04 Процесс task3_worker.sh успешно запущен (PID: 22251)
+2026-07-14 17:29:04 Запуск процесса task4_worker.sh
+2026-07-14 17:29:05 Процесс task4_worker.sh успешно запущен (PID: 22264)
+2026-07-14 17:29:05 Запуск процесса task5_worker.sh
+2026-07-14 17:29:06 Процесс task5_worker.sh успешно запущен (PID: 22277)
+2026-07-14 17:30:01 Запуск процесса task1_worker.sh
+2026-07-14 17:30:02 Процесс task1_worker.sh успешно запущен (PID: 22311)
+2026-07-14 17:30:02 Запуск процесса task2_worker.sh
+2026-07-14 17:30:03 Процесс task2_worker.sh успешно запущен (PID: 22324)
+2026-07-14 17:30:03 Запуск процесса task3_worker.sh
+2026-07-14 17:30:04 Процесс task3_worker.sh успешно запущен (PID: 22337)
+2026-07-14 17:30:04 Запуск процесса task4_worker.sh
+2026-07-14 17:30:05 Процесс task4_worker.sh успешно запущен (PID: 22350)
+2026-07-14 17:30:05 Запуск процесса task5_worker.sh
+2026-07-14 17:30:06 Процесс task5_worker.sh успешно запущен (PID: 22363)
+
+
+
+Логи одной из выполненных задач:
+2026-07-14 17:29:01 [22225] Скрипт запущен
+2026-07-14 17:29:01 [22225] Получено время: 6 секунд
+2026-07-14 17:29:07 [22225] Скрипт завершился, работал 6 секунд
+2026-07-14 17:30:01 [22311] Скрипт запущен
+2026-07-14 17:30:01 [22311] Получено время: 6 секунд
+2026-07-14 17:30:07 [22311] Скрипт завершился, работал 6 секунд
+root@eltex-practice2-v38:~# cat report_task2_worker.log 
+2026-07-14 17:29:02 [22238] Скрипт запущен
+2026-07-14 17:29:02 [22238] Получено время: 5 секунд
+2026-07-14 17:29:07 [22238] Скрипт завершился, работал 5 секунд
+2026-07-14 17:30:02 [22324] Скрипт запущен
+2026-07-14 17:30:02 [22324] Получено время: 5 секунд
+2026-07-14 17:30:07 [22324] Скрипт завершился, работал 5 секунд
+root@eltex-practice2-v38:~# cat report_task3_worker.log 
+2026-07-14 17:29:03 [22251] Скрипт запущен
+2026-07-14 17:29:03 [22251] Получено время: 5 секунд
+2026-07-14 17:29:08 [22251] Скрипт завершился, работал 5 секунд
+2026-07-14 17:30:03 [22337] Скрипт запущен
+2026-07-14 17:30:03 [22337] Получено время: 8 секунд
+2026-07-14 17:30:11 [22337] Скрипт завершился, работал 8 секунд
+root@eltex-practice2-v38:~# cat report_task4_worker.log 
+2026-07-14 17:29:04 [22264] Скрипт запущен
+2026-07-14 17:29:04 [22264] Получено время: 4 секунд
+2026-07-14 17:29:08 [22264] Скрипт завершился, работал 4 секунд
+2026-07-14 17:30:04 [22350] Скрипт запущен
+2026-07-14 17:30:04 [22350] Получено время: 6 секунд
+2026-07-14 17:30:10 [22350] Скрипт завершился, работал 6 секунд
+root@eltex-practice2-v38:~# cat report_task5_worker.log 
+2026-07-14 17:29:05 [22277] Скрипт запущен
+2026-07-14 17:29:05 [22277] Получено время: 8 секунд
+2026-07-14 17:29:13 [22277] Скрипт завершился, работал 8 секунд
+2026-07-14 17:30:05 [22363] Скрипт запущен
+2026-07-14 17:30:05 [22363] Получено время: 6 секунд
+2026-07-14 17:30:11 [22363] Скрипт завершился, работал 6 секунд
+
+
+Все работает корректно
