@@ -123,4 +123,7 @@ file `which find`
 file /boot/initrd.img* 2>/dev/null
 /boot/initrd.img-6.1.0-44-amd64: ASCII cpio archive (SVR4 with no CRC)
 /boot/initrd.img-6.1.0-50-amd64: ASCII cpio archive (SVR4 with no CRC)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 097edfc84c67e0598de28854ec5c8fbbc84dacc1

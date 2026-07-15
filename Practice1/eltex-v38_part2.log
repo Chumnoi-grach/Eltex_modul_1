@@ -241,6 +241,7 @@ mkfs.ext4
 resize2fs
 tune2fs
 update-grub2
+<<<<<<< HEAD
 
 
 14 Задание:
@@ -265,3 +266,26 @@ eltex-v38@eltex-2026-summer-14:45> ls
 
 
 
+=======
+
+
+14 Задание:
+eltex-v38@eltex-2026-summer:~$ export PS1="\u@\h-$(date +%H:%M)> "
+eltex-v38@eltex-2026-summer-14:45>
+
+
+15 Задание:
+eltex-v38@eltex-2026-summer-14:45> echo 'echo $PS1' > test_ps1.sh
+eltex-v38@eltex-2026-summer-14:45> bash --norc --noprofile
+eltex-v38@eltex-2026-summer-14:45> exit
+
+16 Задание:
+eltex-v38@eltex-2026-summer-14:45> mkdir -p ~/$(date +%Y)-{01..12}
+
+eltex-v38@eltex-2026-summer-14:45> ls
+2026-01  2026-06  2026-11                    eltex-v38_part.log
+2026-02  2026-07  2026-12                    practice2_eltex-v38_part1.log
+2026-03  2026-08  D1                         report_part1.txt
+2026-04  2026-09  eltex-v38_part3_gt20M.log  test_ps1.sh
+2026-05  2026-10  eltex-v38_part3.log        -v38_part3_gt20M.log
+>>>>>>> 097edfc84c67e0598de28854ec5c8fbbc84dacc1
